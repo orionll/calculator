@@ -135,8 +135,9 @@ innerLoop :: (Floating a, Read a) => String -> AST a -> Int -> [Token] -> (AST a
 innerLoop expr rhs opPrecedence tokens = case tokens of
   (Operator op _ : _) |
     precedence <- binOpPrecedence (findBinOpInfoByChar op),
-    precedence > opPrecedence ->
-      parseExpression1 expr rhs precedence tokens
+    precedence > opPrecedence,
+    (rhs', tail) <- parseExpression1 expr rhs precedence tokens ->
+      innerLoop expr rhs' opPrecedence tail
   _ -> (rhs, tokens)
 
 parseExpression1 :: (Floating a, Read a) => String -> AST a -> Int -> [Token] -> (AST a, [Token])
