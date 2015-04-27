@@ -4,7 +4,7 @@ import scala.math._
 import scala.annotation.tailrec
 
 final class CalculatorException(msg: String, expr: String, loc: Int) extends RuntimeException {
-  private val subExprWithLoc: (String, Int) = {
+  private val (subExpr, subLoc) = {
     val maxWidth = 30
     val right = loc + maxWidth/2
     val left = loc - maxWidth/2
@@ -19,10 +19,7 @@ final class CalculatorException(msg: String, expr: String, loc: Int) extends Run
     }
   }
   
-  override def getMessage = {
-    val (subExpr, subLoc) = subExprWithLoc
-    msg + String.format(":%n") + subExpr + String.format("%n") + (" " * subLoc) + "^"
-  }
+  override def getMessage = msg + String.format(":%n") + subExpr + String.format("%n") + (" " * subLoc) + "^"
 }
 
 sealed trait Token { def loc: Int }
