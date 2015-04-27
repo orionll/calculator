@@ -1,31 +1,22 @@
-package com.axmor.calculator
+package temp
 
 import scala.math._
 import scala.annotation.tailrec
 
 final class CalculatorException(msg: String, expr: String, loc: Int) extends RuntimeException {
   private val subExprWithLoc: (String, Int) = {
-    val right = loc + 15
-    val left = loc - 15
+    val maxWidth = 30
+    val right = loc + maxWidth/2
+    val left = loc - maxWidth/2
     if (right >= expr.length) {
-      val l = right - 30
-      if (l < 0) {
-        (expr, loc)
-      } else {
-        ("..." + expr.substring(l, expr.length - 1), loc - l + 3)
-      }
+      val l = expr.length - maxWidth
+      if (l < 0) (expr, loc) else ("..." + expr.substring(l, expr.length), loc - l + 3)
     } else if (left < 0) {
-      val r = left + 30
-      if (r >= expr.length) {
-        (expr, loc)
-      } else {
-        (expr.substring(0, r) + "...", loc)
-      }
+      val r = maxWidth
+      if (r >= expr.length) (expr, loc) else (expr.substring(0, r) + "...", loc)
     } else {
       ("..." + expr.substring(left, right) + "...", loc - left + 3)
     }
-    
-    
   }
   
   override def getMessage = {
@@ -210,9 +201,6 @@ object Evaluator extends App {
     val value = calc(expr, varTable, ast)
     (ids.foldLeft(varTable)((table, i) => table + (i -> value)), value)
   }
-  
-  val e = new Evaluator
-  e.evaluate("8aaaaabbbbbcccccdddddeeeeefffffggggghhhhhiiiiijjjjjkkkkk7");
 }
 
 // Stateful evaluator (maintains variable table)
