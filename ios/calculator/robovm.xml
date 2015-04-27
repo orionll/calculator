@@ -1,0 +1,20 @@
+<config>
+  <executableName>${app.executable}</executableName>
+  <mainClass>${app.mainclass}</mainClass>
+  <os>ios</os>
+  <arch>thumbv7</arch>
+  <resources>
+    <resource>
+      <directory>resources</directory>
+    </resource>
+  </resources>
+  <target>ios</target>
+  <iosInfoPList>Info.plist.xml</iosInfoPList>
+  <forceLinkClasses>
+    <pattern>com.android.org.conscrypt.OpenSSLProvider</pattern>
+    <pattern>com.android.org.conscrypt.OpenSSLSignature</pattern>
+    <pattern>com.android.org.conscrypt.OpenSSLMessageDigestJDK</pattern>
+    <pattern>com.android.org.conscrypt.JSSEProvider</pattern>
+    <pattern>com.android.org.conscrypt.OpenSSLRSAKeyFactory</pattern>
+  </forceLinkClasses>
+</config>
